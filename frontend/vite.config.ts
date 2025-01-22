@@ -11,15 +11,21 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    proxy: {
+      "/api": {
+        target: "https://your-backend.vercel.app", // Replace with your actual backend URL
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
   build: {
-    chunkSizeWarningLimit: 1000, // Increase chunk size warning limit to 1000 kB
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
-      // Optional: Customize manual chunking to split large dependencies
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
-            return "vendor"; // Separate vendor libraries into a chunk
+            return "vendor";
           }
         },
       },
